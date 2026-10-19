@@ -40,3 +40,7 @@ Unit/component checks cover all 38 catalog records, growth answers, four texture
 Barber/editor review is still required before public release: texture fit and minimum-length buckets are editorial heuristics; generated hairstyle silhouettes and side treatments need professional approval. Twists are an additional styling service, and 360 waves require brushing/styling. No growth timeline or exact guard measurement is promised. See [catalog audit](docs/catalog-audit.md).
 
 Final verification: **28 unit/component tests and 7 production browser tests passed; lint and production build passed.** Browser checks include touch emulation and automated WCAG A/AA scans. See [verification details](docs/verification.md).
+
+## GitHub Pages deployment
+
+The site is published at https://sciurus.github.io/thecut/ by `.github/workflows/deploy.yml`. Every push to `main` (or manual workflow dispatch) installs the locked dependencies, runs lint, unit/component tests and Chromium acceptance/accessibility checks, then uploads `dist/` and deploys it to the `github-pages` environment. The build job uses Node 22 and pnpm 10.18.3. Deployment uses the built-in GitHub token with Pages and OIDC permissions; no custom secrets are needed. Repository **Settings → Pages → Source** must be **GitHub Actions**. The existing relative Vite base supports the repository subdirectory.
