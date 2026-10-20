@@ -52,7 +52,6 @@ export default function App() {
           <span className="brand-mark">Ⅱ</span> THE CUT
           <span className="brand-sub">HAIRCUT FINDER</span>
         </a>
-        <span className="header-note">Good hair starts here.</span>
         {state.screen !== "landing" && (
           <button className="text-button" onClick={reset}>
             Start over ↻
@@ -62,9 +61,6 @@ export default function App() {
       {state.screen === "landing" ? (
         <main className="landing">
           <section className="intro">
-            <p className="eyebrow">
-              <span className="short-line" /> YOUR NEXT LOOK, FIGURED OUT
-            </p>
             <h1 ref={heading} tabIndex={-1}>
               Find your
               <br />
@@ -85,37 +81,8 @@ export default function App() {
             </p>
           </section>
           <div className="hero-art">
-            <span className="art-caption">
-              A LITTLE INSPIRATION. A FRESH PERSPECTIVE.
-            </span>
             <Illustration assetId="hero" />
-            <div className="art-foot">
-              <span>YOUR HAIR. YOUR STYLE.</span>
-              <span>✳</span>
-            </div>
           </div>
-          <section className="how">
-            <div>
-              <span>01</span>
-              <p>
-                A few easy choices
-                <small>Your hair, your style, your routine.</small>
-              </p>
-            </div>
-            <div>
-              <span>02</span>
-              <p>
-                A cut that fits
-                <small>One suggestion. A few good options.</small>
-              </p>
-            </div>
-            <div>
-              <span>03</span>
-              <p>
-                Ready for the barber<small>Know exactly what to ask for.</small>
-              </p>
-            </div>
-          </section>
         </main>
       ) : state.screen === "quiz" ? (
         <main className="quiz">
@@ -286,13 +253,6 @@ export default function App() {
           </main>
         )
       )}
-      <footer>
-        <span>
-          THE CUT <span className="footer-separator">/</span> A little direction
-          for your next haircut.
-        </span>
-        <span>Made for your natural hair.</span>
-      </footer>
     </div>
   );
 }

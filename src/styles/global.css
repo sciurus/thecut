@@ -126,8 +126,9 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px 55px;
-  padding-top: 62px;
+  padding-top: 40px;
   max-width: 1120px;
+  align-content: start;
   align-items: center;
 }
 .intro .eyebrow {
@@ -493,7 +494,7 @@ h1:focus {
 }
 @media (min-width: 1200px) {
   .landing {
-    padding-top: 70px;
+    padding-top: 40px;
     padding-bottom: 45px;
   }
   .hero-art {
@@ -524,7 +525,7 @@ h1:focus {
   .landing {
     grid-template-columns: 1fr;
     gap: 25px;
-    padding-top: 30px;
+    padding-top: 24px;
     text-align: center;
   }
   .intro .eyebrow {
