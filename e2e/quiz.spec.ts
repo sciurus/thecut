@@ -75,7 +75,7 @@ test("keyboard navigation and reduced motion", async ({ page }) => {
     page.getByRole("button", { name: /Find my haircut/ }),
   ).toBeVisible();
   await page.keyboard.press("Tab");
-  await expect(page.getByRole("link", { name: "The Cut home" })).toBeFocused();
+  await expect(page.getByRole("link", { name: /THE CUT/ })).toBeFocused();
   await page.keyboard.press("Tab");
   await page.keyboard.press("Enter");
   await expect(page.locator("h1")).toBeFocused();

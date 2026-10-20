@@ -2,6 +2,12 @@
 
 A complete React + TypeScript frontend based on `boys-hairstyle-quiz-codex-plan.md`. An adaptive quiz recommends one haircut and up to three diverse alternatives from 38 authored styles. Includes natural-texture suitability, length and growth handling, daily effort preferences, cut-specific barber instructions, back/edit navigation, alternative selection, and validated versioned localStorage recovery. No backend, login, personal information, photo upload, analytics, remote fonts, or runtime AI/API requests.
 
+## Browse hairstyles
+
+The landing page also opens a gallery of all 38 styles, with name search and texture, finished-length, and styling-effort filters. Styles are sorted by length and then name. Texture filtering includes ideal and adaptable fits and excludes unsuitable styles.
+
+Each style has a detail page with suitability information and copyable barber instructions that can be tailored to texture and supported sides. Browsing preserves quiz progress. Gallery filters and hairstyle pages use shareable hash URLs (for example `#/browse?texture=curly` and `#/hairstyles/french-crop`) that work on static hosting without server rewrites. Returning to the gallery restores filters and scroll position within the current session.
+
 ## Run
 
 Node 22 and pnpm 10.18.3. npm is not installed in the implementation environment, so the repository uses pnpm and its lockfile.
@@ -39,7 +45,7 @@ Unit/component checks cover all 38 catalog records, growth answers, four texture
 
 Barber/editor review is still required before public release: texture fit and minimum-length buckets are editorial heuristics; generated hairstyle silhouettes and side treatments need professional approval. Twists are an additional styling service, and 360 waves require brushing/styling. No growth timeline or exact guard measurement is promised. See [catalog audit](docs/catalog-audit.md).
 
-Final verification: **28 unit/component tests and 7 production browser tests passed; lint and production build passed.** Browser checks include touch emulation and automated WCAG A/AA scans. See [verification details](docs/verification.md).
+Final verification: **31 unit/component tests and 12 production browser tests passed; lint and production build passed.** Browser checks include touch emulation and automated WCAG A/AA scans. See [verification details](docs/verification.md).
 
 ## GitHub Pages deployment
 

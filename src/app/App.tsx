@@ -6,9 +6,26 @@ import { getRecommendations } from "../lib/recommendation";
 import { initial, loadState, saveState } from "../lib/persistence";
 import { validateCatalog } from "../lib/validators";
 import Illustration from "../components/Illustration";
+import Browse from "../components/Browse";
+import { useNavigation } from "../lib/navigation";
 validateCatalog(haircuts);
 export default function App() {
   const [state, setState] = useState(loadState);
+  const initialRoute = useRef(state.screen === "landing" ? "/" : "/quiz");
+  const { route, navigate } = useNavigation(initialRoute.current);
+  const screen =
+    route === "/" || route === ""
+      ? "landing"
+      : state.screen === "landing"
+        ? "quiz"
+        : state.screen;
+  const browsing =
+    route.startsWith("/browse") || route.startsWith("/hairstyles/");
+  const startQuiz = () => {
+    setState((current) => ({ ...current, screen: "quiz" }));
+    navigate("/quiz");
+    window.scrollTo(0, 0);
+  };
   const [copied, setCopied] = useState("");
   const heading = useRef<HTMLHeadingElement>(null);
   const previous = useRef(state);
@@ -23,7 +40,10 @@ export default function App() {
   const recs = getRecommendations(state.answers, haircuts);
   const selected =
     recs.find((r) => r.haircut.id === state.selectedResultId) ?? recs[0];
-  const reset = () => setState({ ...initial });
+  const reset = () => {
+    setState({ ...initial });
+    navigate("/");
+  };
   const back = () => {
     const index = flow.path.indexOf(state.currentQuestionId);
     if (state.screen === "results")
@@ -34,7 +54,10 @@ export default function App() {
       });
     else if (index > 0)
       setState({ ...state, currentQuestionId: flow.path[index - 1] });
-    else setState({ ...state, screen: "landing" });
+    else {
+      setState({ ...state, screen: "landing" });
+      navigate("/");
+    }
   };
   const q = questions[state.currentQuestionId];
   return (
@@ -42,23 +65,49 @@ export default function App() {
       <header>
         <a
           className="brand"
-          href="#"
+          href="#/"
           onClick={(e) => {
             e.preventDefault();
             setState({ ...state, screen: "landing" });
+            navigate("/");
           }}
-          aria-label="The Cut home"
+          title="The Cut home"
         >
-          <span className="brand-mark">Ⅱ</span> THE CUT
+          <span className="brand-mark" aria-hidden="true">
+            Ⅱ
+          </span>{" "}
+          THE CUT
           <span className="brand-sub">HAIRCUT FINDER</span>
         </a>
-        {state.screen !== "landing" && (
-          <button className="text-button" onClick={reset}>
-            Start over ↻
-          </button>
-        )}
+        <nav aria-label="Main navigation">
+          {(browsing || screen !== "landing") && (
+            <a
+              className="text-button"
+              href="#/browse"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/browse");
+              }}
+            >
+              Browse hairstyles
+            </a>
+          )}
+          {!browsing && screen !== "landing" && (
+            <button
+              className="text-button"
+              onClick={() => {
+                reset();
+                navigate("/");
+              }}
+            >
+              Start over ↻
+            </button>
+          )}
+        </nav>
       </header>
-      {state.screen === "landing" ? (
+      {browsing ? (
+        <Browse route={route} navigate={navigate} startQuiz={startQuiz} />
+      ) : screen === "landing" ? (
         <main className="landing">
           <section className="intro">
             <h1 ref={heading} tabIndex={-1}>
@@ -70,12 +119,21 @@ export default function App() {
               Pick what you like. We'll suggest a cut
               <br className="desktop-break" /> and what to tell the barber.
             </p>
-            <button
-              className="primary"
-              onClick={() => setState({ ...state, screen: "quiz" })}
-            >
-              Find my haircut <span>↗</span>
-            </button>
+            <div className="landing-actions">
+              <button className="primary" onClick={startQuiz}>
+                Find my haircut <span>↗</span>
+              </button>
+              <a
+                className="secondary"
+                href="#/browse"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/browse");
+                }}
+              >
+                Browse hairstyles
+              </a>
+            </div>
             <p className="privacy">
               <span aria-hidden="true">◈</span> No photo or account needed.
             </p>
@@ -84,7 +142,7 @@ export default function App() {
             <Illustration assetId="hero" />
           </div>
         </main>
-      ) : state.screen === "quiz" ? (
+      ) : screen === "quiz" ? (
         <main className="quiz">
           <div className="quiz-nav">
             <button className="text-button" onClick={back}>

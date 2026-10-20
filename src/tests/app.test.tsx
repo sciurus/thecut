@@ -5,12 +5,13 @@ import App from "../app/App";
 afterEach(() => {
   cleanup();
   localStorage.clear();
+  window.history.replaceState({}, "", "/");
 });
 it("supports keyboard start, answers, selected state, results, alternative and reset", async () => {
   const user = userEvent.setup();
   render(<App />);
   await user.tab();
-  expect(screen.getByRole("link", { name: "The Cut home" })).toHaveFocus();
+  expect(screen.getByRole("link", { name: /THE CUT/ })).toHaveFocus();
   await user.tab();
   await user.keyboard("{Enter}");
   expect(
